@@ -8,38 +8,13 @@ use RuntimeException;
 
 class XdgNotAvailableException extends RuntimeException
 {
-    public static function homeDirectoryNotAvailable(): self
+    public static function directoryNotAvailable(string $directoryName): self
     {
-        return new self('Unable to get the XDG home directory');
+        return new self('Unable to get the XDG ' . $directoryName . ' directory');
     }
 
-    public static function homeCacheDirectoryNotAvailable(): self
+    public static function directoriesNotAvailable(string $directoryName): self
     {
-        return new self('Unable to get the XDG home cache directory');
-    }
-
-    public static function homeConfigDirectoryNotAvailable(): self
-    {
-        return new self('Unable to get the XDG home config directory');
-    }
-
-    public static function homeDataDirectoryNotAvailable(): self
-    {
-        return new self('Unable to get the XDG home data directory');
-    }
-
-    public static function runtimeDirectoryNotAvailable(): self
-    {
-        return new self('Unable to get the XDG runtime directory');
-    }
-
-    public static function dataDirectoriesNotAvailable(): self
-    {
-        return new self('Unable to get the XDG runtime directory');
-    }
-
-    public static function configDirectoriesNotAvailable(): self
-    {
-        return new self('Unable to get the XDG runtime directory');
+        return new self('Unable to get the XDG ' . $directoryName . ' directories');
     }
 }

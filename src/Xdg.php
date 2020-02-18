@@ -23,7 +23,7 @@ class Xdg
             return $directory;
         }
 
-        throw XdgNotAvailableException::homeDirectoryNotAvailable();
+        throw XdgNotAvailableException::directoryNotAvailable('home');
     }
 
     public function getHomeCacheDirectory(): string
@@ -32,7 +32,7 @@ class Xdg
             return $directory;
         }
 
-        throw XdgNotAvailableException::homeCacheDirectoryNotAvailable();
+        throw XdgNotAvailableException::directoryNotAvailable('home cache');
     }
 
     public function getHomeConfigDirectory(): string
@@ -41,7 +41,7 @@ class Xdg
             return $directory;
         }
 
-        throw XdgNotAvailableException::homeConfigDirectoryNotAvailable();
+        throw XdgNotAvailableException::directoryNotAvailable('home config');
     }
 
     public function getHomeDataDirectory(): string
@@ -50,7 +50,7 @@ class Xdg
             return $directory;
         }
 
-        throw XdgNotAvailableException::homeDataDirectoryNotAvailable();
+        throw XdgNotAvailableException::directoryNotAvailable('home data');
     }
 
     public function getRuntimeDirectory(bool $strict = true): string
@@ -59,7 +59,7 @@ class Xdg
             return $directory;
         }
 
-        throw XdgNotAvailableException::runtimeDirectoryNotAvailable();
+        throw XdgNotAvailableException::directoryNotAvailable('runtime');
     }
 
     /** @return Collection<int, string> */
@@ -69,7 +69,7 @@ class Xdg
             return collect($directories);
         }
 
-        throw XdgNotAvailableException::dataDirectoriesNotAvailable();
+        throw XdgNotAvailableException::directoriesNotAvailable('data');
     }
 
     /** @return Collection<int, string> */
@@ -79,6 +79,6 @@ class Xdg
             return collect($directories);
         }
 
-        throw XdgNotAvailableException::configDirectoriesNotAvailable();
+        throw XdgNotAvailableException::directoriesNotAvailable('config');
     }
 }
