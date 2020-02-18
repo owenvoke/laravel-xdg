@@ -31,6 +31,18 @@ app('xdg')->getHomeDirectory();
 \OwenVoke\LaravelXdg\Facades\Xdg::getHomeDirectory();
 ```
 
+#### Available methods
+
+| Description                             | Method name                | Return Value |
+| :-------------------------------------- | :------------------------- | :----------- |
+| Retrieve the XDG home directory.        | `getHomeDirectory()`       | string       |
+| Retrieve the XDG home cache directory.  | `getHomeCacheDirectory()`  | string       |
+| Retrieve the XDG home config directory. | `getHomeConfigDirectory()` | string       |
+| Retrieve the XDG home data directory.   | `getHomeDataDirectory()`   | string       |
+| Retrieve the XDG runtime directory.     | `getRuntimeDirectory()`    | string       |
+| Retrieve all XDG data directories.      | `getDataDirectories()`     | Collection   |
+| Retrieve all XDG config directories.    | `getConfigDirectories()`   | Collection   |
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
