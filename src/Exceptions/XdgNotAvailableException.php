@@ -35,11 +35,11 @@ class XdgNotAvailableException extends RuntimeException
 
     public static function dataDirectoriesNotAvailable(): self
     {
-        return new self('Unable to get the XDG runtime directory');
+        return new self('Unable to get the XDG data directories');
     }
 
     public static function configDirectoriesNotAvailable(): self
     {
-        return new self('Unable to get the XDG runtime directory');
+        return new self('Unable to get the XDG config directories');
     }
 }
