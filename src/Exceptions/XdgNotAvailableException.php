@@ -10,11 +10,11 @@ class XdgNotAvailableException extends RuntimeException
 {
     public static function directoryNotAvailable(string $directoryName): self
     {
-        return new self('Unable to get the XDG ' . $directoryName . ' directory');
+        return new self('Unable to get the XDG '.$directoryName.' directory');
     }
 
     public static function directoriesNotAvailable(string $directoryName): self
     {
-        return new self('Unable to get the XDG ' . $directoryName . ' directories');
+        return new self('Unable to get the XDG '.$directoryName.' directories');
     }
 }
