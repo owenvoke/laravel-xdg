@@ -19,7 +19,17 @@ $ composer require owenvoke/laravel-xdg
 
 ## Usage
 
-...
+```php
+use OwenVoke\LaravelXdg\Xdg;
+
+// Resolving from the app container
+app(Xdg::class)->getHomeDirectory();
+app('xdg')->getHomeDirectory();
+
+// Using the facade (with, and without the short alias)
+\Xdg::getHomeDirectory();
+\OwenVoke\LaravelXdg\Facades\Xdg::getHomeDirectory();
+```
 
 ## Change log
 
