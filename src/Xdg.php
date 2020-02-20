@@ -47,8 +47,12 @@ class Xdg
 
     public function getHomeConfigDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeConfigDir()) {
+        if ($directory = Env::get('XDG_CONFIG_HOME')) {
             return $directory;
+        }
+
+        if ($homeDirectory = $this->getHomeDirectory()) {
+            return $homeDirectory === DIRECTORY_SEPARATOR ? "{$homeDirectory}.config" : "{$homeDirectory}/.config";
         }
 
         throw XdgNotAvailableException::homeConfigDirectoryNotAvailable();
