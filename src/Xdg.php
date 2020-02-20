@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace OwenVoke\LaravelXdg;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Env;
+use Illuminate\Support\Str;
 use OwenVoke\LaravelXdg\Exceptions\XdgNotAvailableException;
 use XdgBaseDir\Xdg as BaseXdg;
 
@@ -19,8 +21,12 @@ class Xdg
 
     public function getHomeDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeDir()) {
+        if ($directory = Env::get('HOME')) {
             return $directory;
+        }
+
+        if (($homeDrive = Env::get('HOMEDRIVE')) && ($homePath = Env::get('HOMEPATH'))) {
+            return "{$homeDrive}/{$homePath}";
         }
 
         throw XdgNotAvailableException::homeDirectoryNotAvailable();
