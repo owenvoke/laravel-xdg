@@ -40,8 +40,8 @@ app('xdg')->getHomeDirectory();
 | Retrieve the XDG home config directory. | `getHomeConfigDirectory()` | string       |
 | Retrieve the XDG home data directory.   | `getHomeDataDirectory()`   | string       |
 | Retrieve the XDG runtime directory.     | `getRuntimeDirectory()`    | string       |
-| Retrieve all XDG data directories.      | `getDataDirectories()`     | Collection   |
 | Retrieve all XDG config directories.    | `getConfigDirectories()`   | Collection   |
+| Retrieve all XDG data directories.      | `getDataDirectories()`     | Collection   |
 
 ## Change log
 

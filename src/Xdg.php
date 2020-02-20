@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use OwenVoke\LaravelXdg\Exceptions\XdgNotAvailableException;
-use XdgBaseDir\Xdg as BaseXdg;
 
 class Xdg
 {
@@ -16,13 +15,6 @@ class Xdg
     public const S_IRWXO = 00007;  // rwx other
     public const S_IRWXG = 00056;  // rwx group
     public const RUNTIME_DIR_FALLBACK = 'php-xdg-runtime-dir-fallback-';
-
-    private BaseXdg $xdg;
-
-    public function __construct(BaseXdg $xdg)
-    {
-        $this->xdg = $xdg;
-    }
 
     public function getHomeDirectory(): string
     {
@@ -90,18 +82,6 @@ class Xdg
     }
 
     /** @return Collection<int, string> */
-    public function getDataDirectories(): Collection
-    {
-        if ($directories = Env::get('XDG_DATA_DIRS', '/etc/xdg')) {
-            return Str::of($directories)
-                ->explode(':')
-                ->prepend($this->getHomeDataDirectory());
-        }
-
-        throw XdgNotAvailableException::dataDirectoriesNotAvailable();
-    }
-
-    /** @return Collection<int, string> */
     public function getConfigDirectories(): Collection
     {
         if ($directories = Env::get('XDG_CONFIG_DIRS', '/usr/local/share:/usr/share')) {
@@ -111,6 +91,18 @@ class Xdg
         }
 
         throw XdgNotAvailableException::configDirectoriesNotAvailable();
+    }
+
+    /** @return Collection<int, string> */
+    public function getDataDirectories(): Collection
+    {
+        if ($directories = Env::get('XDG_DATA_DIRS', '/etc/xdg')) {
+            return Str::of($directories)
+                ->explode(':')
+                ->prepend($this->getHomeDataDirectory());
+        }
+
+        throw XdgNotAvailableException::dataDirectoriesNotAvailable();
     }
 
     /** @link https://github.com/dnoegel/php-xdg-base-dir/blob/12f5b94710c8f5b504432d57ce353075fc434339/src/Xdg.php#L86 */
