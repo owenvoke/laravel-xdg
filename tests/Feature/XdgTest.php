@@ -11,8 +11,6 @@ use RuntimeException;
 
 class XdgTest extends AbstractTestCase
 {
-    private Xdg $xdg;
-
     /** @test */
     public function it_can_get_the_home_directory(): void
     {

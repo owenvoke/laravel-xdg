@@ -18,11 +18,11 @@ class Xdg
 
     public function getHomeDirectory(): string
     {
-        if ($directory = Env::get('HOME')) {
+        if ($directory = getenv('HOME')) {
             return $directory;
         }
 
-        if (($homeDrive = Env::get('HOMEDRIVE')) && ($homePath = Env::get('HOMEPATH'))) {
+        if (($homeDrive = getenv('HOMEDRIVE')) && ($homePath = getenv('HOMEPATH'))) {
             return "{$homeDrive}/{$homePath}";
         }
 
@@ -31,7 +31,7 @@ class Xdg
 
     public function getHomeCacheDirectory(): string
     {
-        if ($directory = Env::get('XDG_CACHE_HOME')) {
+        if ($directory = getenv('XDG_CACHE_HOME')) {
             return $directory;
         }
 
@@ -44,7 +44,7 @@ class Xdg
 
     public function getHomeConfigDirectory(): string
     {
-        if ($directory = Env::get('XDG_CONFIG_HOME')) {
+        if ($directory = getenv('XDG_CONFIG_HOME')) {
             return $directory;
         }
 
@@ -57,7 +57,7 @@ class Xdg
 
     public function getHomeDataDirectory(): string
     {
-        if ($directory = Env::get('XDG_DATA_HOME')) {
+        if ($directory = getenv('XDG_DATA_HOME')) {
             return $directory;
         }
 
@@ -70,7 +70,7 @@ class Xdg
 
     public function getRuntimeDirectory(bool $strict = true): string
     {
-        if ($directory = Env::get('XDG_RUNTIME_DIR')) {
+        if ($directory = getenv('XDG_RUNTIME_DIR')) {
             return $directory;
         }
 
@@ -84,7 +84,7 @@ class Xdg
     /** @return Collection<int, string> */
     public function getConfigDirectories(): Collection
     {
-        if ($directories = Env::get('XDG_CONFIG_DIRS', '/usr/local/share:/usr/share')) {
+        if ($directories = (getenv('XDG_CONFIG_DIRS') ?: '/usr/local/share:/usr/share')) {
             return Str::of($directories)
                 ->explode(':')
                 ->prepend($this->getHomeConfigDirectory());
@@ -96,7 +96,7 @@ class Xdg
     /** @return Collection<int, string> */
     public function getDataDirectories(): Collection
     {
-        if ($directories = Env::get('XDG_DATA_DIRS', '/etc/xdg')) {
+        if ($directories = (getenv('XDG_DATA_DIRS') ?: '/etc/xdg')) {
             return Str::of($directories)
                 ->explode(':')
                 ->prepend($this->getHomeDataDirectory());
@@ -108,7 +108,7 @@ class Xdg
     /** @link https://github.com/dnoegel/php-xdg-base-dir/blob/12f5b94710c8f5b504432d57ce353075fc434339/src/Xdg.php#L86 */
     private function getFallbackDirectory(): string
     {
-        $fallback = sys_get_temp_dir().'/'.self::RUNTIME_DIR_FALLBACK.Env::get('USER');
+        $fallback = sys_get_temp_dir().'/'.self::RUNTIME_DIR_FALLBACK.getenv('USER');
 
         $create = false;
 
