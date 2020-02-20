@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OwenVoke\LaravelXdg;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use OwenVoke\LaravelXdg\Exceptions\XdgNotAvailableException;
 
