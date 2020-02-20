@@ -104,8 +104,10 @@ class Xdg
     /** @return Collection<int, string> */
     public function getConfigDirectories(): Collection
     {
-        if ($directories = $this->xdg->getConfigDirs()) {
-            return collect($directories);
+        if ($directories = Env::get('XDG_CONFIG_DIRS', '/usr/local/share:/usr/share')) {
+            return Str::of($directories)
+                ->explode(':')
+                ->prepend($this->getHomeConfigDirectory());
         }
 
         throw XdgNotAvailableException::configDirectoriesNotAvailable();
