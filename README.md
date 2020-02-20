@@ -7,7 +7,7 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-A Laravel adapter for the XDG Base Directory package.
+A Laravel adapter for the XDG Base Directory specification.
 
 ## Install
 
@@ -40,8 +40,8 @@ app('xdg')->getHomeDirectory();
 | Retrieve the XDG home config directory. | `getHomeConfigDirectory()` | string       |
 | Retrieve the XDG home data directory.   | `getHomeDataDirectory()`   | string       |
 | Retrieve the XDG runtime directory.     | `getRuntimeDirectory()`    | string       |
-| Retrieve all XDG data directories.      | `getDataDirectories()`     | Collection   |
 | Retrieve all XDG config directories.    | `getConfigDirectories()`   | Collection   |
+| Retrieve all XDG data directories.      | `getDataDirectories()`     | Collection   |
 
 ## Change log
 

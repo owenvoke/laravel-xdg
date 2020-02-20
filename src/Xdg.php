@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace OwenVoke\LaravelXdg;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use OwenVoke\LaravelXdg\Exceptions\XdgNotAvailableException;
-use XdgBaseDir\Xdg as BaseXdg;
 
 class Xdg
 {
-    private BaseXdg $xdg;
-
-    public function __construct(BaseXdg $xdg)
-    {
-        $this->xdg = $xdg;
-    }
+    public const S_IFDIR = 040000; // directory
+    public const S_IRWXO = 00007;  // rwx other
+    public const S_IRWXG = 00056;  // rwx group
+    public const RUNTIME_DIR_FALLBACK = 'php-xdg-runtime-dir-fallback-';
 
     public function getHomeDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeDir()) {
+        if ($directory = getenv('HOME')) {
             return $directory;
+        }
+
+        if (($homeDrive = getenv('HOMEDRIVE')) && ($homePath = getenv('HOMEPATH'))) {
+            return "{$homeDrive}/{$homePath}";
         }
 
         throw XdgNotAvailableException::homeDirectoryNotAvailable();
@@ -28,8 +30,12 @@ class Xdg
 
     public function getHomeCacheDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeCacheDir()) {
+        if ($directory = getenv('XDG_CACHE_HOME')) {
             return $directory;
+        }
+
+        if ($homeDirectory = $this->getHomeDirectory()) {
+            return "{$homeDirectory}/.cache";
         }
 
         throw XdgNotAvailableException::homeCacheDirectoryNotAvailable();
@@ -37,8 +43,12 @@ class Xdg
 
     public function getHomeConfigDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeConfigDir()) {
+        if ($directory = getenv('XDG_CONFIG_HOME')) {
             return $directory;
+        }
+
+        if ($homeDirectory = $this->getHomeDirectory()) {
+            return $homeDirectory === DIRECTORY_SEPARATOR ? "{$homeDirectory}.config" : "{$homeDirectory}/.config";
         }
 
         throw XdgNotAvailableException::homeConfigDirectoryNotAvailable();
@@ -46,8 +56,12 @@ class Xdg
 
     public function getHomeDataDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeDataDir()) {
+        if ($directory = getenv('XDG_DATA_HOME')) {
             return $directory;
+        }
+
+        if ($homeDirectory = $this->getHomeDirectory()) {
+            return "{$homeDirectory}/.local/share";
         }
 
         throw XdgNotAvailableException::homeDataDirectoryNotAvailable();
@@ -55,30 +69,72 @@ class Xdg
 
     public function getRuntimeDirectory(bool $strict = true): string
     {
-        if ($directory = $this->xdg->getRuntimeDir($strict)) {
+        if ($directory = getenv('XDG_RUNTIME_DIR')) {
             return $directory;
+        }
+
+        if (! $strict) {
+            return $this->getFallbackDirectory();
         }
 
         throw XdgNotAvailableException::runtimeDirectoryNotAvailable();
     }
 
     /** @return Collection<int, string> */
+    public function getConfigDirectories(): Collection
+    {
+        if ($directories = (getenv('XDG_CONFIG_DIRS') ?: '/usr/local/share:/usr/share')) {
+            return Str::of($directories)
+                ->explode(':')
+                ->prepend($this->getHomeConfigDirectory());
+        }
+
+        throw XdgNotAvailableException::configDirectoriesNotAvailable();
+    }
+
+    /** @return Collection<int, string> */
     public function getDataDirectories(): Collection
     {
-        if ($directories = $this->xdg->getDataDirs()) {
-            return collect($directories);
+        if ($directories = (getenv('XDG_DATA_DIRS') ?: '/etc/xdg')) {
+            return Str::of($directories)
+                ->explode(':')
+                ->prepend($this->getHomeDataDirectory());
         }
 
         throw XdgNotAvailableException::dataDirectoriesNotAvailable();
     }
 
-    /** @return Collection<int, string> */
-    public function getConfigDirectories(): Collection
+    /** @link https://github.com/dnoegel/php-xdg-base-dir/blob/12f5b94710c8f5b504432d57ce353075fc434339/src/Xdg.php#L86 */
+    private function getFallbackDirectory(): string
     {
-        if ($directories = $this->xdg->getConfigDirs()) {
-            return collect($directories);
+        $fallback = sys_get_temp_dir().'/'.self::RUNTIME_DIR_FALLBACK.getenv('USER');
+
+        $create = false;
+
+        if (! is_dir($fallback)) {
+            mkdir($fallback, 0700, true);
         }
 
-        throw XdgNotAvailableException::configDirectoriesNotAvailable();
+        $stats = lstat($fallback);
+
+        // The fallback must be a directory
+        if (! $stats['mode'] & self::S_IFDIR) {
+            rmdir($fallback);
+            $create = true;
+        } elseif ($stats['mode'] & (self::S_IRWXO | self::S_IRWXG) || $stats['uid'] !== $this->getUuid()) {
+            rmdir($fallback);
+            $create = true;
+        }
+
+        if ($create) {
+            mkdir($fallback, 0700, true);
+        }
+
+        return $fallback;
+    }
+
+    private function getUuid(): int
+    {
+        return function_exists('posix_getuid') ? posix_getuid() : getmyuid();
     }
 }
