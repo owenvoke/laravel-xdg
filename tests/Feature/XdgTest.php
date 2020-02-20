@@ -61,10 +61,20 @@ class XdgTest extends AbstractTestCase
     }
 
     /** @test */
+    public function it_can_get_the_runtime_directory_with_fallback(): void
+    {
+        putenv('XDG_RUNTIME_DIR=');
+
+        $fallbackDirectory = sys_get_temp_dir().'/'.Xdg::RUNTIME_DIR_FALLBACK;
+
+        $this->assertSame($fallbackDirectory, $this->xdg->getRuntimeDirectory(false));
+    }
+
+    /** @test */
     public function it_throws_an_exception_on_strict_runtime_when_env_does_not_exist(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('XDG_RUNTIME_DIR was not set');
+        $this->expectExceptionMessage('Unable to get the XDG runtime directory');
 
         putenv('XDG_RUNTIME_DIR=');
 
