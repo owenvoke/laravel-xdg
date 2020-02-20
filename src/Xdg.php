@@ -60,8 +60,12 @@ class Xdg
 
     public function getHomeDataDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeDataDir()) {
+        if ($directory = Env::get('XDG_DATA_HOME')) {
             return $directory;
+        }
+
+        if ($homeDirectory = $this->getHomeDirectory()) {
+            return "{$homeDirectory}/.local/share";
         }
 
         throw XdgNotAvailableException::homeDataDirectoryNotAvailable();
