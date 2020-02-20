@@ -92,8 +92,10 @@ class Xdg
     /** @return Collection<int, string> */
     public function getDataDirectories(): Collection
     {
-        if ($directories = $this->xdg->getDataDirs()) {
-            return collect($directories);
+        if ($directories = Env::get('XDG_DATA_DIRS', '/etc/xdg')) {
+            return Str::of($directories)
+                ->explode(':')
+                ->prepend($this->getHomeDataDirectory());
         }
 
         throw XdgNotAvailableException::dataDirectoriesNotAvailable();
