@@ -34,8 +34,12 @@ class Xdg
 
     public function getHomeCacheDirectory(): string
     {
-        if ($directory = $this->xdg->getHomeCacheDir()) {
+        if ($directory = Env::get('XDG_CACHE_HOME')) {
             return $directory;
+        }
+
+        if ($homeDirectory = $this->getHomeDirectory()) {
+            return "{$homeDirectory}/.cache";
         }
 
         throw XdgNotAvailableException::homeCacheDirectoryNotAvailable();
