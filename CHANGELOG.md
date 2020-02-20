@@ -6,4 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/owenvoke/laravel-xdg/compare/v1.0.0...master
+## v0.1.0 - 2020-02-18
+
+### Added
+- Initial release
+
+[Unreleased]: https://github.com/owenvoke/laravel-xdg/compare/v0.1.0...master
