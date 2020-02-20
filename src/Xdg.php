@@ -118,7 +118,7 @@ class Xdg
 
         $stats = lstat($fallback);
 
-        # The fallback must be a directory
+        // The fallback must be a directory
         if (! $stats['mode'] & self::S_IFDIR) {
             rmdir($fallback);
             $create = true;
