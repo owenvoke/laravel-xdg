@@ -4,7 +4,7 @@
     "description": "A Laravel adapter for the XDG Base Directory specification.",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "illuminate/contracts": "^7.0|^8.0",
         "illuminate/support": "^7.0|^8.0"
     },
