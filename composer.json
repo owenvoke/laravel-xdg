@@ -11,7 +11,8 @@
     "require-dev": {
         "orchestra/testbench": "^5.0|^6.0",
         "phpstan/phpstan": "^0.12.57",
-        "phpunit/phpunit": "^8.5|^9.4"
+        "pestphp/pest": "^0.3.13",
+        "symfony/var-dumper": "^5.1"
     },
     "autoload": {
         "psr-4": {
@@ -24,8 +25,12 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
-        "analyse": "phpstan analyse"
+        "test:types": "phpstan analyse --ansi --memory-limit=0",
+        "test:unit": "pest --colors=always",
+        "test": [
+            "@test:types",
+            "@test:unit"
+        ]
     },
     "config": {
         "sort-packages": true

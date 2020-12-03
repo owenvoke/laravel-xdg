@@ -2,100 +2,67 @@
 
 declare(strict_types=1);
 
-namespace OwenVoke\LaravelXdg\Tests\Feature;
-
 use Illuminate\Support\Env;
-use OwenVoke\LaravelXdg\Tests\AbstractTestCase;
 use OwenVoke\LaravelXdg\Xdg;
-use RuntimeException;
 
-class XdgTest extends AbstractTestCase
-{
-    /** @test */
-    public function it_can_get_the_home_directory(): void
-    {
-        putenv('HOME=/fake-dir');
+it('can get the home directory', function () {
+    putenv('HOME=/fake-dir');
 
-        $this->assertSame('/fake-dir', $this->getXdg()->getHomeDirectory());
-    }
+    $this->assertSame('/fake-dir', app(Xdg::class)->getHomeDirectory());
+});
 
-    /** @test */
-    public function it_can_get_the_home_cache_directory(): void
-    {
-        putenv('XDG_CACHE_HOME=/fake-dir/.cache');
+it('can get the home cache directory', function () {
+    putenv('XDG_CACHE_HOME=/fake-dir/.cache');
 
-        $this->assertSame('/fake-dir/.cache', $this->getXdg()->getHomeCacheDirectory());
-    }
+    $this->assertSame('/fake-dir/.cache', app(Xdg::class)->getHomeCacheDirectory());
+});
 
-    /** @test */
-    public function it_can_get_the_home_config_directory(): void
-    {
-        putenv('XDG_CONFIG_HOME=/fake-dir/.config');
+it('can get the home config directory', function () {
+    putenv('XDG_CONFIG_HOME=/fake-dir/.config');
 
-        $this->assertSame('/fake-dir/.config', $this->getXdg()->getHomeConfigDirectory());
-    }
+    $this->assertSame('/fake-dir/.config', app(Xdg::class)->getHomeConfigDirectory());
+});
 
-    /** @test */
-    public function it_can_get_the_home_data_directory(): void
-    {
-        putenv('XDG_DATA_HOME=/fake-dir/.local/share');
+it('can get the home data directory', function () {
+    putenv('XDG_DATA_HOME=/fake-dir/.local/share');
 
-        $this->assertSame('/fake-dir/.local/share', $this->getXdg()->getHomeDataDirectory());
-    }
+    $this->assertSame('/fake-dir/.local/share', app(Xdg::class)->getHomeDataDirectory());
+});
 
-    /** @test */
-    public function it_can_get_the_runtime_directory(): void
-    {
-        putenv('XDG_RUNTIME_DIR=/tmp/');
+it('can get the runtime directory', function () {
+    putenv('XDG_RUNTIME_DIR=/tmp/');
 
-        $this->assertSame('/tmp/', $this->getXdg()->getRuntimeDirectory());
-    }
+    $this->assertSame('/tmp/', app(Xdg::class)->getRuntimeDirectory());
+});
 
-    /** @test */
-    public function it_can_get_the_runtime_directory_with_fallback(): void
-    {
-        putenv('XDG_RUNTIME_DIR=');
+it('can get the runtime directory with fallback', function () {
+    putenv('XDG_RUNTIME_DIR=');
 
-        $fallbackDirectory = sys_get_temp_dir().'/'.Xdg::RUNTIME_DIR_FALLBACK.Env::get('USER');
+    $fallbackDirectory = sys_get_temp_dir() . '/' . Xdg::RUNTIME_DIR_FALLBACK . Env::get('USER');
 
-        $this->assertSame($fallbackDirectory, $this->getXdg()->getRuntimeDirectory(false));
-    }
+    $this->assertSame($fallbackDirectory, app(Xdg::class)->getRuntimeDirectory(false));
+});
 
-    /** @test */
-    public function it_throws_an_exception_on_strict_runtime_when_env_does_not_exist(): void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unable to get the XDG runtime directory');
+it('throws an exception on strict runtime when env does not exist', function () {
+    putenv('XDG_RUNTIME_DIR=');
 
-        putenv('XDG_RUNTIME_DIR=');
+    app(Xdg::class)->getRuntimeDirectory(true);
+})->throws(RuntimeException::class, 'Unable to get the XDG runtime directory');
 
-        $this->getXdg()->getRuntimeDirectory(true);
-    }
+it('can get the data directories', function () {
+    putenv('XDG_DATA_HOME=/fake-dir/.local/share');
 
-    /** @test */
-    public function it_can_get_the_data_directories(): void
-    {
-        putenv('XDG_DATA_HOME=/fake-dir/.local/share');
+    $directories =  app(Xdg::class)->getDataDirectories();
 
-        $directories = $this->getXdg()->getDataDirectories();
+    $this->assertNotEmpty($directories);
+    $this->assertSame('/fake-dir/.local/share', $directories->first());
+});
 
-        $this->assertNotEmpty($directories);
-        $this->assertSame('/fake-dir/.local/share', $directories->first());
-    }
+it('can get the config directories', function () {
+    putenv('XDG_CONFIG_HOME=/fake-dir/.config');
 
-    /** @test */
-    public function it_can_get_the_config_directories(): void
-    {
-        putenv('XDG_CONFIG_HOME=/fake-dir/.config');
+    $directories = app(Xdg::class)->getConfigDirectories();
 
-        $directories = $this->getXdg()->getConfigDirectories();
-
-        $this->assertNotEmpty($directories);
-        $this->assertSame('/fake-dir/.config', $directories->first());
-    }
-
-    private function getXdg(): Xdg
-    {
-        return app(Xdg::class);
-    }
-}
+    $this->assertNotEmpty($directories);
+    $this->assertSame('/fake-dir/.config', $directories->first());
+});
