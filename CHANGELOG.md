@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 
+## [v1.1.0] - 2020-12-03
+
+### Added
+- Add support for Laravel 8 ([#3](https://github.com/owenvoke/laravel-xdg/pull/3))
+- Add support for PHP 8 ([#4](https://github.com/owenvoke/laravel-xdg/pull/4))
+
 ## [v1.0.0] - 2020-02-20
 
 ### Changed
@@ -16,5 +22,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/owenvoke/laravel-xdg/compare/v1.0.0...master
+[Unreleased]: https://github.com/owenvoke/laravel-xdg/compare/v1.0.0...main
+[v1.1.0]: https://github.com/owenvoke/laravel-xdg/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/owenvoke/laravel-xdg/compare/v0.1.0...v1.0.0
