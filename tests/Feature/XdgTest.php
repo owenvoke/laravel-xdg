@@ -38,7 +38,7 @@ it('can get the runtime directory', function () {
 it('can get the runtime directory with fallback', function () {
     putenv('XDG_RUNTIME_DIR=');
 
-    $fallbackDirectory = sys_get_temp_dir() . '/' . Xdg::RUNTIME_DIR_FALLBACK . Env::get('USER');
+    $fallbackDirectory = sys_get_temp_dir().'/'.Xdg::RUNTIME_DIR_FALLBACK.Env::get('USER');
 
     $this->assertSame($fallbackDirectory, app(Xdg::class)->getRuntimeDirectory(false));
 });
@@ -52,7 +52,7 @@ it('throws an exception on strict runtime when env does not exist', function () 
 it('can get the data directories', function () {
     putenv('XDG_DATA_HOME=/fake-dir/.local/share');
 
-    $directories =  app(Xdg::class)->getDataDirectories();
+    $directories = app(Xdg::class)->getDataDirectories();
 
     $this->assertNotEmpty($directories);
     $this->assertSame('/fake-dir/.local/share', $directories->first());
