@@ -10,9 +10,9 @@
     },
     "require-dev": {
         "orchestra/testbench": "^5.0|^6.0",
-        "phpstan/phpstan": "^0.12.66",
-        "pestphp/pest": "^1.0",
-        "symfony/var-dumper": "^5.1"
+        "phpstan/phpstan": "^1.0",
+        "pestphp/pest": "^1.21.1",
+        "symfony/var-dumper": "^5.4.6 || ^6.0.8"
     },
     "autoload": {
         "psr-4": {
@@ -25,7 +25,7 @@
         }
     },
     "scripts": {
-        "test:types": "phpstan analyse --ansi --memory-limit=0",
+        "test:types": "phpstan analyse --ansi --memory-limit=-1",
         "test:unit": "pest --colors=always",
         "test": [
             "@test:types",
@@ -33,7 +33,10 @@
         ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "extra": {
         "laravel": {
