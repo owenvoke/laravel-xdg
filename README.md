@@ -13,8 +13,8 @@ A Laravel adapter for the XDG Base Directory specification.
 
 Via Composer
 
-```bash
-$ composer require owenvoke/laravel-xdg
+```shell
+composer require owenvoke/laravel-xdg
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ app('xdg')->getHomeDirectory();
 #### Available methods
 
 | Description                             | Method name                | Return Value |
-| :-------------------------------------- | :------------------------- | :----------- |
+|:----------------------------------------|:---------------------------|:-------------|
 | Retrieve the XDG home directory.        | `getHomeDirectory()`       | string       |
 | Retrieve the XDG home cache directory.  | `getHomeCacheDirectory()`  | string       |
 | Retrieve the XDG home config directory. | `getHomeConfigDirectory()` | string       |
@@ -49,8 +49,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Testing
 
-```bash
-$ composer test
+```shell
+composer test
 ```
 
 ## Contributing

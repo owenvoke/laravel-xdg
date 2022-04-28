@@ -83,25 +83,17 @@ class Xdg
     /** @return Collection<int, string> */
     public function getConfigDirectories(): Collection
     {
-        if ($directories = (getenv('XDG_CONFIG_DIRS') ?: '/usr/local/share:/usr/share')) {
-            return Str::of($directories)
-                ->explode(':')
-                ->prepend($this->getHomeConfigDirectory());
-        }
-
-        throw XdgNotAvailableException::configDirectoriesNotAvailable();
+        return Str::of(getenv('XDG_CONFIG_DIRS') ?: '/etc/xdg')
+            ->explode(':')
+            ->prepend($this->getHomeConfigDirectory());
     }
 
     /** @return Collection<int, string> */
     public function getDataDirectories(): Collection
     {
-        if ($directories = (getenv('XDG_DATA_DIRS') ?: '/etc/xdg')) {
-            return Str::of($directories)
-                ->explode(':')
-                ->prepend($this->getHomeDataDirectory());
-        }
-
-        throw XdgNotAvailableException::dataDirectoriesNotAvailable();
+        return Str::of(getenv('XDG_DATA_DIRS') ?: '/usr/local/share:/usr/share')
+            ->explode(':')
+            ->prepend($this->getHomeDataDirectory());
     }
 
     /** @link https://github.com/dnoegel/php-xdg-base-dir/blob/12f5b94710c8f5b504432d57ce353075fc434339/src/Xdg.php#L86 */
