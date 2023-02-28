@@ -11,8 +11,11 @@ use OwenVoke\LaravelXdg\Exceptions\XdgNotAvailableException;
 class Xdg
 {
     public const S_IFDIR = 040000; // directory
+
     public const S_IRWXO = 00007;  // rwx other
+
     public const S_IRWXG = 00056;  // rwx group
+
     public const RUNTIME_DIR_FALLBACK = 'php-xdg-runtime-dir-fallback-';
 
     public function getHomeDirectory(): string
