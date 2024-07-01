@@ -4,16 +4,16 @@
     "description": "A Laravel adapter for the XDG Base Directory specification.",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
-        "illuminate/contracts": "^10.0",
-        "illuminate/support": "^10.0"
+        "php": "^8.2",
+        "illuminate/contracts": "^11.0",
+        "illuminate/support": "^11.0"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
-        "orchestra/testbench": "^8.0",
-        "pestphp/pest": "^1.22.3",
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^2.34",
         "phpstan/phpstan": "^1.10.3",
-        "symfony/var-dumper": "^6.1"
+        "symfony/var-dumper": "^7.1"
     },
     "autoload": {
         "psr-4": {
