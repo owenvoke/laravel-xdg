@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## Unreleased
 
+## [v1.4.0 - 2024-07-01](https://github.com/owenvoke/laravel-xdg/compare/v1.3.0...v1.4.0)
+
+### Added
+- Add support for Laravel 11 ([#8](https://github.com/owenvoke/laravel-xdg/pull/8))
+
+### Removed
+- Remove support for Laravel 10 ([#8](https://github.com/owenvoke/laravel-xdg/pull/8))
+
 ## [v1.3.0 - 2022-04-28](https://github.com/owenvoke/laravel-xdg/compare/v1.2.0...v1.3.0)
 
 ### Added
